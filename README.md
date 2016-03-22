@@ -69,6 +69,14 @@ current Snapshot file into something like JSON or YAML.
 After this configuration, prompts will appear for the user to enter in
 information as they check out and return radios.
 
+##### Logging
+
+The application automatically creates a log file named `EquipmentTracker.log` in
+the same directory as the application itself. This log file tracks all actions
+in the main application, and will be able to show a radio's history if it was checked
+out and returned multiple times. The Snapshot file would only show the current state
+at the time of writing.
+
 ##### User Prompts:
 ```
 User Menu:
