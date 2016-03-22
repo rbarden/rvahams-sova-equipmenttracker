@@ -25,7 +25,7 @@ directory apart from everything else, that way you can specify file names
 without having to worry about absolute paths. The application will create the
 files in the same directory as the application is running. For example, if you
 place the .jar file in `/rvahams`, then specifying the file names a la
-`radiolist.txt` will be located at `/rvahams/radiolist.txt`. It is not advised
+`radiolist.txt`, will locate them at `/rvahams/radiolist.txt`. It is not advised
 to use absolute paths and if you need to, do so at your own risk.
 
 ### General Use:
@@ -74,8 +74,8 @@ information as they check out and return radios.
 The application automatically creates a log file named `EquipmentTracker.log` in
 the same directory as the application itself. This log file tracks all actions
 in the main application, and will be able to show a radio's history if it was checked
-out and returned multiple times. The Snapshot file would only show the current state
-at the time of writing.
+out and returned multiple times. __THE LOG FILE IS OVERWRITTEN EVERY TIME THE 
+PROGRAM IS RUN.__
 
 ##### User Prompts:
 ```
@@ -89,7 +89,8 @@ Hit the enter/return key after you type selection
 
 These are straight forward and will prompt for their name and their
 radio's identifier which should be printed on the radio or otherwise
-made known to the user.
+made known to the user. __Names can only be one word long.__ The suggested
+format is [last][firstInitial][middleInitial].
 
 That is it for general user interaction. When the user enters the required
 information the user prompts start over again. The application takes care of
