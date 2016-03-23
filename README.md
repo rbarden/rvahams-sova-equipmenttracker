@@ -20,6 +20,10 @@ There are two options for installation of the Equipment Tracker.
 * If you have no changes to make, or don't care to read the source code
 , just download the executable .jar file and run it from the command line.
 
+If you are compiling from source you will need to download the core Log4J
+libraries from (http://logging.apache.org/log4j/2.x/download.html). For this
+project, you only need the log4j-api-2.x and the log4j-core-2.x jar files.
+
 If you download the .jar file, it is suggested that you place it in it's own
 directory apart from everything else, that way you can specify file names
 without having to worry about absolute paths. The application will create the
@@ -33,19 +37,20 @@ Because it is solely a command line program, the user will have to be familiar
 with running a Java application via their command line of choice.
 
 If you are using the source code itself, it is assumed you know something about
-java compilation and running it. Simply compile it all and run the following 
-command in the appropriate directory: 
+java compilation and running it. Simply compile it all and run the following
+command in the appropriate directory:
 
 `java MainApplication`
 
-To run the executable .jar file, run the following command in the same 
+To run the executable .jar file, run the following command in the same
 directory as `EquipmentTracker.jar`:
 
 `java -jar EquipmentTracker.jar`
 
-The configuration prompts are to be answered by the owner of the application before
-any other operations can and should take place. These configuration prompts are
-used for file names that are going to be used for both input and output files.
+The configuration prompts are to be answered by the owner of the application
+before any other operations can and should take place. These configuration
+prompts are used for file names that are going to be used for both input and
+output files.
 
 ##### Configuration Prompts:
 1. `Enter a Radio List file name:` This file holds a list of all identifiers on
@@ -56,11 +61,12 @@ user prompt menu.
 
 A note about file names:
 
-1. The Radio List file __MUST__ have an extension and __MUST__ be a plain text file.
+1. The Radio List file __MUST__ have an extension and __MUST__ be a plain text
+file.
   * Good: radioList.txt -OR- RadioIdentifiers.dat
   * Bad: Radios.doc -OR- radiolist.xls
-2. The Snapshot file should __NOT__ have an extension. The application automatically
-adds a random identifier and saves it as a .txt file.
+2. The Snapshot file should __NOT__ have an extension. The application
+automatically adds a random identifier and saves it as a .txt file.
 
 There will be a version, eventually, that will take a Snapshot file and be able
 to load it to continue the process. This will probably require a reformat of the
@@ -73,9 +79,9 @@ information as they check out and return radios.
 
 The application automatically creates a log file named `EquipmentTracker.log` in
 the same directory as the application itself. This log file tracks all actions
-in the main application, and will be able to show a radio's history if it was checked
-out and returned multiple times. __THE LOG FILE IS OVERWRITTEN EVERY TIME THE 
-PROGRAM IS RUN.__
+in the main application, and will be able to show a radio's history if it was
+checked out and returned multiple times. __THE LOG FILE IS OVERWRITTEN EVERY
+TIME THE PROGRAM IS RUN.__
 
 ##### User Prompts:
 ```
@@ -100,7 +106,7 @@ all required time stamping.
 
 ### Radio List File Requirements
 
-* Each line should contain a single entry with a __unique__ identifier for 
+* Each line should contain a single entry with a __unique__ identifier for
 each radio.
 
 * Lines that are to be ignored must start with `//`, like a normal Java
