@@ -184,7 +184,7 @@ public class MainApplication {
 		try {
 			Random rand = new Random();
 			int randNum = rand.nextInt(0xff);
-			fileName = snapshotFileName + "-" + Integer.toHexString(randNum).toUpperCase() + ".txt";
+			fileName = "snapshot/" + snapshotFileName + "-" + Integer.toHexString(randNum).toUpperCase() + ".txt";
 			output = new PrintWriter(fileName);
 			logger.info("Created Snapshot file: " + fileName);
 		} catch (FileNotFoundException e) {
