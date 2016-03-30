@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public class EquipmentItem {
 
-	private static String UNCLAIMED_BORROWER_VALUE = "UNCLAIMED";
+	public static final String AVAILABLE_BORROWER_VALUE = "UNCLAIMED";
 
-	private String id;
-	private String borrower = UNCLAIMED_BORROWER_VALUE;
+	private final String id;
+	private String borrower = AVAILABLE_BORROWER_VALUE;
 	private LocalDateTime checkedOutTime;
 	private LocalDateTime returnedTime;
 	private boolean available = true;
@@ -29,7 +29,7 @@ public class EquipmentItem {
 		if (available) {
 			throw new UnsupportedOperationException(id + " is already checked in.");
 		}
-		borrower = UNCLAIMED_BORROWER_VALUE;
+		borrower = AVAILABLE_BORROWER_VALUE;
 		returnedTime = LocalDateTime.now();
 		available = true;
 	}

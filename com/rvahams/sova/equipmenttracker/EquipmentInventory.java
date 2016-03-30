@@ -13,6 +13,7 @@ import net.datastructures.Position;
 
 public class EquipmentInventory {
 
+	private String inventoryName = "inventory";
 	private String snapshotName = "snapshot";
 
 	private LinkedPositionalList<EquipmentItem> lpl;
@@ -23,10 +24,15 @@ public class EquipmentInventory {
 		hm = new HashMap<>();
 	}
 
-	public EquipmentInventory(String snapshotName) {
+	public EquipmentInventory(String inventoryName, String snapshotName) {
+		this.inventoryName = inventoryName;
 		this.snapshotName = snapshotName;
 		lpl = new LinkedPositionalList<EquipmentItem>();
-		hm = new HashMap<>();
+		hm = new HashMap<String, Position<EquipmentItem>>();
+	}
+
+	public void setInventoryName(String inventoryName) {
+		this.inventoryName = inventoryName;
 	}
 
 	public void setSnapshotName(String snapshotName) {
@@ -45,17 +51,16 @@ public class EquipmentInventory {
 		hm.get(id).getElement().checkIn();
 	}
 
-	public void generateSnapshot() {
+	public void generateSnapshot() throws IOException {
 		String generatedFileName = "snapshot/" + snapshotName + "-"
 				+ Integer.toHexString(new Random().nextInt(0xff)).toUpperCase() + ".txt";
 		try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(generatedFileName)))) {
+			out.println("------ Snapshot file ------ \n Name: " + generatedFileName + "\n");
 			for (EquipmentItem element : lpl) {
 				out.println(element);
 			}
 		} catch (IOException e) {
-
+			throw new IOException(e.getMessage());
 		}
-
 	}
-
 }
