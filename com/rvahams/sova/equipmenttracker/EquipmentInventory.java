@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import net.datastructures.LinkedPositionalList;
 import net.datastructures.Position;
@@ -39,8 +39,9 @@ public class EquipmentInventory {
 		this.snapshotName = snapshotName;
 	}
 
-	public void populate(List<String> identifiers) {
-		identifiers.forEach(s -> hm.put(s, lpl.addLast(new EquipmentItem(s))));
+	public void populate(Stream<String> identifiers) {
+		identifiers.filter(s -> !s.equals(""))
+				.forEach(s -> hm.put(s, lpl.addLast(new EquipmentItem(s))));
 	}
 
 	public void checkOutItem(String id, String name) {
@@ -55,7 +56,7 @@ public class EquipmentInventory {
 		String generatedFileName = "snapshot/" + snapshotName + "-"
 				+ Integer.toHexString(new Random().nextInt(0xff)).toUpperCase() + ".txt";
 		try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(generatedFileName)))) {
-			out.println("------ Snapshot file ------ \n Name: " + generatedFileName + "\n");
+			out.println("------ Snapshot file ------ \n Name: " + generatedFileName + "\n Inventory: " + inventoryName);
 			for (EquipmentItem element : lpl) {
 				out.println(element);
 			}
