@@ -180,28 +180,4 @@ public class MainApplication {
 		}
 		return logger.exit(in.next().charAt(0));
 	}
-
-	private static void createSnapshotFile(LinkedPositionalList<EquipmentItem> lpl, String snapshotFileName) {
-		logger.entry();
-		PrintWriter output = null;
-		String fileName = "";
-		try {
-			Random rand = new Random();
-			int randNum = rand.nextInt(0xff);
-			fileName = "snapshot/" + snapshotFileName + "-" + Integer.toHexString(randNum).toUpperCase() + ".txt";
-			output = new PrintWriter(fileName);
-			logger.info("Created Snapshot file: " + fileName);
-		} catch (FileNotFoundException e) {
-			logger.catching(e);
-			System.out.println("The file could not be created or another error occured. Please try again.");
-		}
-		logger.info("Writing to Snapshot file ...");
-		for (EquipmentItem element : lpl) {
-			output.println(element);
-		}
-		output.close();
-		System.out.println("Wrote to Snapshot file - " + fileName);
-		logger.info("Wrote to Snapshot file");
-		logger.exit();
-	}
 }
