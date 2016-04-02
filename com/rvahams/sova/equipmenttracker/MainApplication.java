@@ -2,10 +2,12 @@ package com.rvahams.sova.equipmenttracker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.nio.file.Files;
 import java.util.Random;
 import java.util.Scanner;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -21,15 +23,14 @@ public class MainApplication {
 		Scanner in = new Scanner(System.in);
 		logger.info("Opened Scanner for System.in");
 
-		LinkedPositionalList<EquipmentLoan> lpl = new LinkedPositionalList<EquipmentLoan>();
-		HashMap<String, Position<EquipmentLoan>> hm = new HashMap<>();
-		logger.info("Constructed lpl and hm");
+		EquipmentInventory inventory = new EquipmentInventory();
+		logger.info("Constructed inventory");
 
 		printWelcome();
 
-		getRadioList(in, lpl, hm);
+		getRadioList(in, inventory);
 
-		String getSnapshotFileName = getSnapshotFileName(in);
+		inventory.setInventoryName(getSnapshotFileName(in));
 
 		boolean wantsToQuit = false;
 		logger.info("Set wantsToQuit to false");
@@ -44,7 +45,7 @@ public class MainApplication {
 				System.out.print("Enter the radio's identifier: ");
 				rid = in.next();
 				try {
-					hm.get(rid).getElement().checkOut(name);
+					inventory.checkOutItem(rid, name);
 					logger.info(name + " checked out " + rid);
 				} catch (IllegalStateException e) {
 					logger.catching(e);
@@ -60,7 +61,7 @@ public class MainApplication {
 				System.out.print("Enter the radio's identifier: ");
 				rid = in.next();
 				try {
-					hm.get(rid).getElement().checkIn();
+					inventory.returnItem(rid);
 					logger.info(rid + " was checked back in");
 				} catch (IllegalStateException e) {
 					logger.catching(e);
@@ -73,7 +74,13 @@ public class MainApplication {
 				}
 				break;
 			case '3':
-				createSnapshotFile(lpl, getSnapshotFileName);
+				try {
+					inventory.generateSnapshot();
+				} catch (IOException e) {
+					logger.catching(e);
+					System.out.println("The snapshot file was not generated. \n"
+							+ "Please try again.");
+				}
 				break;
 			case '4':
 				wantsToQuit = true;
@@ -87,7 +94,12 @@ public class MainApplication {
 		} while (!wantsToQuit);
 
 		logger.info("Creating automatic Snapshot file ... ");
-		createSnapshotFile(lpl, getSnapshotFileName);
+		try {
+			inventory.generateSnapshot();
+		} catch (IOException e) {
+			logger.catching(e);
+			System.out.println("The snapshot file was not generated.");
+		}
 		logger.info("Created automatic Snapshot file");
 
 		System.out.println("\nThank you for using the RVAHams Equipment Tracker!");
@@ -113,39 +125,31 @@ public class MainApplication {
 		logger.exit();
 	}
 
-	private static void getRadioList(Scanner in, LinkedPositionalList<EquipmentLoan> lpl,
-			HashMap<String, Position<EquipmentLoan>> hm) {
+	private static void getRadioList(Scanner in, EquipmentInventory inventory) {
 		logger.entry();
 
-		Scanner importScanner = null;
-		logger.info("Initialized importScanner to null");
-
-		do {
-			System.out.print("Enter a Radio List file name: \n\t");
-			try {
-				logger.info("Attempting to read System.in for file name to read with importScanner ...");
-				String fileName = in.next();
-				importScanner = new Scanner(new File(fileName));
-				logger.info("Successfully opened Scanner - " + fileName);
-			} catch (FileNotFoundException e) {
-				logger.catching(e);
-				System.out.println("An error occurred and the file was not found.");
-				System.out.println("***** ***** *****");
-			}
-		} while (importScanner == null);
-
-		logger.info("Starting to parse radio list file ...");
-		int lineNumber = 0;
-		while (importScanner.hasNextLine()) {
-			lineNumber++;
-			String line = importScanner.nextLine().trim();
-			if (line.charAt(0) == '/' && line.charAt(1) == '/') {
-				logger.info("Commented Out - Line " + lineNumber);
-				continue;
-			}
-			hm.put(line, lpl.addLast(new EquipmentLoan(line)));
-			logger.info("Added " + line);
+		System.out.print("Enter a Radio List file name: \n\t");
+		logger.info("Attempting to read System.in for file name...");
+		String fileName = in.next();
+		File radioListFile = new File(fileName);
+		while (!radioListFile.exists()) {
+			System.out.print("That file: " + fileName + " does not exist. \n"
+					+ "Please enter a new name: \n\t");
+			radioListFile = new File(in.next());
 		}
+		logger.info("Successfully found file - " + fileName);
+
+		logger.info("Starting Stream to populate inventory...");
+
+		try {
+			inventory.populate(Files.lines(radioListFile.toPath()));
+		} catch (IOException e) {
+			logger.catching(e);
+			System.out.println("Something went wrong while parsing. \n"
+					+ "Please restart the program and try again.");
+			System.exit(1);
+		}
+
 		logger.info("Finished parsing radio list file");
 		logger.exit();
 	}
@@ -177,7 +181,7 @@ public class MainApplication {
 		return logger.exit(in.next().charAt(0));
 	}
 
-	private static void createSnapshotFile(LinkedPositionalList<EquipmentLoan> lpl, String snapshotFileName) {
+	private static void createSnapshotFile(LinkedPositionalList<EquipmentItem> lpl, String snapshotFileName) {
 		logger.entry();
 		PrintWriter output = null;
 		String fileName = "";
@@ -192,7 +196,7 @@ public class MainApplication {
 			System.out.println("The file could not be created or another error occured. Please try again.");
 		}
 		logger.info("Writing to Snapshot file ...");
-		for (EquipmentLoan element : lpl) {
+		for (EquipmentItem element : lpl) {
 			output.println(element);
 		}
 		output.close();
