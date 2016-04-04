@@ -133,9 +133,10 @@ public class MainApplication {
 		String fileName = in.next();
 		File radioListFile = new File(fileName);
 		while (!radioListFile.exists()) {
-			System.out.print("That file: " + fileName + " does not exist. \n"
+			System.out.print("That file - " + fileName + " - does not exist. \n"
 					+ "Please enter a new name: \n\t");
 			radioListFile = new File(in.next());
+			fileName = radioListFile.toString();
 		}
 		logger.info("Successfully found file - " + fileName);
 
