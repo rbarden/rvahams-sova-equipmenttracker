@@ -1,17 +1,12 @@
 package com.rvahams.sova.equipmenttracker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.util.Random;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-import net.datastructures.*;
 
 public class MainApplication {
 
