@@ -1,11 +1,9 @@
 # RVAHams Equipment Tracker
 ---
 ### Description
-This equipment tracker is designed to aid the RVAHams team during the Special
-Olympics event by tracking the loaner equipment as it is loaned out. It does
-not connect to any external servers or databases so it can be used without any
-Internet access. The tracker uses a positional list (via linked list
-implementation) and a HashMap to track the radios and their identifiers.
+RVAHams Equipment Tracker is designed to aid the RVAHams team during Special
+Olympics events by tracking loaner equipment as it is distributed. It does not require internet access or connect to any external servers or databases.
+The tracker uses a positional list via linked list implementation and a HashMap to track the radios by identifiers.
 
 ### License
 See the `LICENSE.md` file for important license information.
@@ -14,30 +12,26 @@ See the `LICENSE.md` file for important license information.
 
 __This application requires Java 8 or later.__
 
-There are two options for installation of the Equipment Tracker.
+RVAHams Equipment Tracker has two installation options.
 
 * Download the source code and compile on your own system.
-* If you have no changes to make, or don't care to read the source code
-, just download the executable .jar file and run it from the command line.
+* If you have no changes to make, or don't care to read the source code, just download the executable .jar file and run it from the command line.
 
 If you are compiling from source you will need to download the core Log4J
 libraries from (http://logging.apache.org/log4j/2.x/download.html). For this
 project, you only need the log4j-api-2.x and the log4j-core-2.x jar files.
 
-If you download the .jar file, it is suggested that you place it in it's own
-directory apart from everything else, that way you can specify file names
+If you download the .jar file, I suggest that placing it in its own
+directory apart from everything else so the user is able to specify file names
 without having to worry about absolute paths. The application will create the
-files in the same directory as the application is running. For example, if you
-place the .jar file in `/rvahams`, then specifying the file names a la
-`radiolist.txt`, will locate them at `/rvahams/radiolist.txt`. It is not advised
-to use absolute paths and if you need to, do so at your own risk.
+files in the same directory as the application is running. For example, placing the .jar file in `/rvahams` and specifying the file names as`radiolist.txt` will result in `/rvahams/radiolist.txt` as the file path name. 
+I do not advise to use absolute paths.
 
 ### General Use:
-Because it is solely a command line program, the user will have to be familiar
-with running a Java application via their command line of choice.
+Because RVAHams Equipment Tracker is solely a command line program, users will need to be familiar
+with running Java applications via command line.
 
-If you are using the source code itself, it is assumed you know something about
-java compilation and running it. Simply compile it all and run the following
+If running from the source code itself, compile it all and run the following
 command in the appropriate directory:
 
 `java MainApplication`
@@ -47,10 +41,8 @@ directory as `EquipmentTracker.jar`:
 
 `java -jar EquipmentTracker.jar`
 
-The configuration prompts are to be answered by the owner of the application
-before any other operations can and should take place. These configuration
-prompts are used for file names that are going to be used for both input and
-output files.
+The application owner will need to answer the configuration prompts before any other operations can take place.
+These configuration prompts are used for file names that are going to be used for both input and output files.
 
 ##### Configuration Prompts:
 1. `Enter a Radio List file name:` This file holds a list of all identifiers on
@@ -68,19 +60,12 @@ file.
 2. The Snapshot file should __NOT__ have an extension. The application
 automatically adds a random identifier and saves it as a .txt file.
 
-There will be a version, eventually, that will take a Snapshot file and be able
-to load it to continue the process. This will probably require a reformat of the
-current Snapshot file into something like JSON or YAML.
-
-After this configuration, prompts will appear for the user to enter in
-information as they check out and return radios.
-
 ##### Logging
 
 The application automatically creates a log file named `EquipmentTracker.log` in
-the same directory as the application itself. This log file tracks all actions
-in the main application, and will be able to show a radio's history if it was
-checked out and returned multiple times. __THE LOG FILE IS OVERWRITTEN EVERY
+the same directory as the application itself. The log file tracks all actions
+in the main application and will be able to show a radio's history over the entire event
+. __THE LOG FILE IS OVERWRITTEN EVERY
 TIME THE PROGRAM IS RUN.__
 
 ##### User Prompts:
@@ -93,14 +78,12 @@ Hit the enter/return key after you type selection
 	4 - Quit Application (Automatically Creates Snapshot)
 ```
 
-These are straight forward and will prompt for their name and their
-radio's identifier which should be printed on the radio or otherwise
-made known to the user. __Names can only be one word long.__ The suggested
-format is [last][firstInitial][middleInitial].
+The prompts are straight forward and will ask for the loanee's name and the
+radio's identifier, which should be printed on the radio or otherwise
+made known to the user. __Names cannot contain spaces.__ I suggest formatting the names as [last][firstInitial][middleInitial].
 
-That is it for general user interaction. When the user enters the required
-information the user prompts start over again. The application takes care of
-all required time stamping.
+That is the end of general user interaction. After the user enters the required
+information, the user prompts start over again. All required time stamping is done automatically.
 
 ---
 
@@ -128,3 +111,11 @@ Radio Backup
 // "Radio Ultimate // Best radio ever"
 Radio Ultimate // Best radio ever
 ```
+### Future Developments
+
+Eventually I hope to have a version that will take a Snapshot file and be able
+to load it to continue the process. This will probably require a reformat of the
+current Snapshot file into something like JSON or YAML.
+
+After this configuration, prompts will appear for the user to enter in
+information as they check out and return radios.
