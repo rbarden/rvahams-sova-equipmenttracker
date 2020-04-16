@@ -1,5 +1,14 @@
 # RVAHams Equipment Tracker
 ---
+
+# ARCHIVED
+
+This repository is now archived. Its functionality is being built into a new, more feature rich application called [SENM](https://senm.app). You can still download this program and use it if you want.
+
+I was a college student when I wrote this. It isn't good. Just use SENM.
+
+---
+
 ### Description
 RVAHams Equipment Tracker is designed to aid the RVAHams team during Special
 Olympics events by tracking loaner equipment as it is distributed. It does not require internet access or connect to any external servers or databases.
